@@ -1,78 +1,61 @@
 <script setup>
 import { reactive } from 'vue';
-import operation from './components/operation.vue'
-import buttons from './components/buttons.vue'
+import Cabecalho from './components/Cabecalho.vue'
+import Operacao from './components/Operacao.vue'
+import Resultado from './components/Resultado.vue'
 
-const estado = reactive ({
-  operator: '',
-  num1:'',
+
+const estado = reactive({
+  operation: '+',
+  num1: '',
   num2: ''
-});
+})
 
-const resultado = ()=> {
-  const {operator} = estado
-  switch(operator) {
-    case'-':
-    return parseFloat(estado.num1) - parseFloat(estado.num2)
-    case'*':
-    return parseFloat(estado.num1) * parseFloat(estado.num2)
-    case'/':
-    return parseFloat(estado.num1) / parseFloat(estado.num2)
-    case'+':
-    return  parseFloat(estado.num1) + parseFloat(estado.num2)
+const resultado = () => {
+  const { operation } = estado
+  switch (operation) {
+    case '-':
+      return parseFloat(estado.num1) - parseFloat(estado.num2)
+    case '*':
+      return parseFloat(estado.num1) * parseFloat(estado.num2)
+    case '/':
+      return parseFloat(estado.num1) / parseFloat(estado.num2)
+    default:
+      return parseFloat(estado.num1) + parseFloat(estado.num2)
   }
 }
-
-
 </script>
 
 <template>
-<body>
-
-  <div id="calc">
-  <h3>Calculadora vue.js</h3>
-  <operation/>
-  <buttons/>
-</div>
-
-</body>
+  <body>
+    <div class="container">
+      <Cabecalho />
+      <Operacao :operacao="evento => estado.operation = evento.target.value"
+        :num1="evento => estado.num1 = evento.target.value" :num2="evento => estado.num2 = evento.target.value">
+      </Operacao>
+      <Resultado :num1="estado.num1" :num2="estado.num2" :result="resultado()" />
+    </div>
+  </body>
 </template>
 
 <style scoped>
-
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: sans-serif;
 }
+
 body {
-  height: 100vh;
-  background-color: #333;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 3em;
+  max-width: 40%;
+  margin: 0 auto;
+  height: 50vh;
+  margin-top:15vh ;
 }
 
-#calc {
-  width: 400px;
-  padding: 0.5em;
-  background-color: #c4c4c4;
-  color: #000;
-  display: flex;
-  flex-direction: column;
+
+.container {
+  margin: 0 auto;
+  text-align: center;
+  background-color: gray;
 }
-
-#calc h3 {
-  font-size: .8em;
-  font-weight: 300;
-  color: #666;
-}
-
-/* operations */
-
-/* buttons */
-
-
 </style>
